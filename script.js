@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
      0. EDIT YOUR CONTENT HERE
      ---------------------------------------------------------- */
 
+  // Flip to true, push, and the site shows only the loader + a
+  // "under construction" tag — no nav, no panels reachable.
+  // Flip back to false and push to bring the full site back.
+  const UNDER_CONSTRUCTION = true;
+
   // Portfolio projects — alternates image/text, text/image automatically.
   // type: 'image' | 'video'  (use 'video' for autoplaying muted clips/gifs-as-mp4)
   const PROJECTS = [
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loaderMark = document.getElementById('loaderMark');
   const loaderDate = document.getElementById('loaderDate');
 
-  loaderDate.textContent = '© ' + new Date().getFullYear();
+  loaderDate.textContent = 'Sevan Dalzell ' + new Date().getFullYear();
 
   const flickerFrames = ['vii', 'v!i', 'vi!', '!ii', 'vii', 'vi!', 'vii'];
   let frame = 0;
@@ -58,12 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
       clearInterval(flickerInterval);
       loaderMark.textContent = 'vii';
       loaderMark.classList.remove('flicker');
-      setTimeout(() => loader.classList.add('is-hidden'), 380);
+
+      if (UNDER_CONSTRUCTION) {
+        document.getElementById('loaderSub').classList.add('is-visible');
+      } else {
+        setTimeout(() => loader.classList.add('is-hidden'), 380);
+      }
       return;
     }
     loaderMark.textContent = flickerFrames[frame];
     loaderMark.classList.toggle('flicker', flickerFrames[frame].includes('!'));
   }, 130);
+
+  if (UNDER_CONSTRUCTION) return; // skip nav/portfolio/lightbox setup entirely
+
 
   /* ----------------------------------------------------------
      2. CARTESIAN PAN NAVIGATION

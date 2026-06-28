@@ -49,7 +49,7 @@ button{
 .eyebrow{
   font-size:11px;
   letter-spacing:.18em;
-  text-transform:uppercase;
+  text-transform:lowercase;
   color:var(--ink-soft);
   margin-bottom:14px;
 }
@@ -78,6 +78,17 @@ button{
   font-weight:700;
 }
 .loader-mark.flicker{ color:var(--accent); }
+
+.loader-sub{
+  margin-top:14px;
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:lowercase;
+  color:var(--ink-soft);
+  opacity:0;
+  transition:opacity .6s ease;
+}
+.loader-sub.is-visible{ opacity:1; }
 
 .loader-foot{
   position:absolute;
