@@ -1,0 +1,434 @@
+/* ============================================================
+   SEVAN DALZELL — vii
+   Design tokens
+   ============================================================ */
+:root{
+  --linen: #FAF0E6;
+  --ink: #2c2925;        /* soft near-black, not pure black */
+  --ink-soft: #6e6760;   /* secondary text */
+  --accent: #c1502b;     /* rust / terracotta — used sparingly */
+  --line: rgba(44,41,37,0.16);
+  --line-strong: rgba(44,41,37,0.32);
+  --mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --pan-speed: 0.85s;
+  --pan-ease: cubic-bezier(.65,0,.2,1);
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden; /* the plane pans inside a fixed viewport */
+  background:var(--linen);
+  color:var(--ink);
+  font-family:var(--mono);
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,p{ margin:0; }
+
+a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line-strong); }
+a:hover{ color:var(--accent); border-color:var(--accent); }
+
+button{
+  font-family:var(--mono);
+  background:none;
+  border:none;
+  color:var(--ink);
+  cursor:pointer;
+}
+
+::selection{ background:var(--ink); color:var(--linen); }
+
+.dim{ color:var(--ink-soft); }
+
+.eyebrow{
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:14px;
+}
+
+/* ============================================================
+   LOADER
+   ============================================================ */
+#loader{
+  position:fixed; inset:0;
+  z-index:100;
+  background:var(--linen);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transition: opacity .7s ease;
+}
+#loader.is-hidden{
+  opacity:0;
+  pointer-events:none;
+}
+.loader-mark{
+  font-size:13px;
+  letter-spacing:.32em;
+  text-transform:lowercase;
+  font-weight:700;
+}
+.loader-mark.flicker{ color:var(--accent); }
+
+.loader-foot{
+  position:absolute;
+  bottom:28px;
+  left:0; right:0;
+  text-align:center;
+  font-size:10px;
+  letter-spacing:.1em;
+  color:var(--ink-soft);
+}
+
+/* ============================================================
+   FIXED CHROME
+   ============================================================ */
+.chrome{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:40;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 28px;
+  pointer-events:none; /* re-enabled on children */
+}
+.mark-home{
+  pointer-events:auto;
+  font-size:12px;
+  letter-spacing:.28em;
+  font-weight:700;
+  padding:4px 2px;
+}
+.mark-home:hover{ color:var(--accent); }
+
+.coord{
+  pointer-events:auto;
+  font-size:10px;
+  letter-spacing:.12em;
+  color:var(--ink-soft);
+}
+
+/* ============================================================
+   WORLD / PLANE — the thing that pans
+   ============================================================ */
+#world{
+  position:fixed;
+  top:0; left:0;
+  width:300vw;
+  height:200vh;
+  transition: transform var(--pan-speed) var(--pan-ease);
+  will-change: transform;
+  z-index:1;
+}
+
+#trace{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+#traceLine{
+  stroke:var(--line-strong);
+  stroke-width:0.12;
+  transition: x2 var(--pan-speed) var(--pan-ease), y2 var(--pan-speed) var(--pan-ease);
+}
+
+.panel{
+  position:absolute;
+  width:100vw;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding: 90px 8vw 70px;
+}
+
+.panel-photo{ left:0;     top:0; }
+.panel-home { left:100vw; top:0; }
+.panel-work { left:200vw; top:0; }
+.panel-about{ left:100vw; top:100vh; }
+
+/* ---------- HOME ---------- */
+.home-block{
+  max-width:460px;
+  text-align:left;
+  animation: rise .9s var(--pan-ease) both;
+}
+.home-block h1{
+  font-size:28px;
+  letter-spacing:-.01em;
+  margin-bottom:18px;
+  font-weight:700;
+}
+.home-body{
+  font-size:13px;
+  line-height:1.75;
+  color:var(--ink-soft);
+  max-width:420px;
+}
+
+@keyframes rise{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* ---------- shared panel head ---------- */
+.panel-head{
+  width:100%;
+  max-width:780px;
+  text-align:left;
+  margin-bottom:8px;
+  flex:0 0 auto;
+}
+.panel-head h2{
+  font-size:22px;
+  font-weight:700;
+}
+
+/* ---------- PHOTOGRAPHY ---------- */
+.panel-photo{ justify-content:flex-start; padding-top:110px; }
+.photo-grid{
+  width:100%;
+  max-width:900px;
+  margin-top:26px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
+  overflow-y:auto;
+  max-height:62vh;
+  padding-right:4px;
+}
+.photo-item{
+  margin:0;
+  aspect-ratio: 4/5;
+  background:rgba(44,41,37,0.05);
+  border:1px solid var(--line);
+  overflow:hidden;
+  cursor:pointer;
+  position:relative;
+}
+.photo-item img, .photo-item video{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform .5s var(--pan-ease);
+}
+.photo-item:hover img, .photo-item:hover video{ transform:scale(1.04); }
+.photo-item.placeholder{
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; letter-spacing:.06em; text-align:center;
+  color:var(--ink-soft); cursor:default;
+  line-height:1.6;
+}
+
+/* ---------- PORTFOLIO ---------- */
+.panel-work{ justify-content:flex-start; padding-top:110px; }
+.work-scroll{
+  width:100%;
+  max-width:760px;
+  margin-top:10px;
+  overflow-y:auto;
+  max-height:66vh;
+  padding-right:6px;
+}
+.work-item{
+  display:flex;
+  gap:34px;
+  align-items:center;
+  padding:38px 0;
+  border-bottom:1px solid var(--line);
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .6s ease, transform .6s var(--pan-ease);
+}
+.work-item.is-visible{ opacity:1; transform:translateY(0); }
+.work-item:last-child{ border-bottom:none; }
+.work-item.flip{ flex-direction:row-reverse; }
+
+.work-media{
+  flex:0 0 46%;
+  aspect-ratio:4/3;
+  background:rgba(44,41,37,0.05);
+  border:1px solid var(--line);
+  overflow:hidden;
+  cursor:zoom-in;
+}
+.work-media img, .work-media video{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.work-text{ flex:1 1 auto; }
+.work-index{
+  font-size:10px;
+  letter-spacing:.16em;
+  color:var(--accent);
+  margin-bottom:10px;
+}
+.work-title{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.work-desc{
+  font-size:12.5px;
+  line-height:1.7;
+  color:var(--ink-soft);
+}
+.work-tags{
+  margin-top:14px;
+  font-size:10px;
+  letter-spacing:.08em;
+  color:var(--ink-soft);
+}
+
+/* ---------- ABOUT ---------- */
+.about-block{
+  max-width:480px;
+  text-align:left;
+}
+.about-block p{
+  font-size:13px;
+  line-height:1.75;
+  color:var(--ink-soft);
+  margin-bottom:18px;
+}
+.about-contact a{ font-size:12px; }
+
+/* ============================================================
+   DIRECTIONAL NAV
+   ============================================================ */
+.dirnav{ z-index:50; }
+
+.arrow{
+  position:fixed;
+  z-index:50;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  padding:10px 12px;
+  transition: opacity .35s ease, transform .35s var(--pan-ease);
+}
+.arrow-glyph{
+  font-size:20px;
+  line-height:1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:38px; height:38px;
+  border:1px solid var(--line-strong);
+  border-radius:1px;
+  transition: background .25s ease, color .25s ease, transform .25s ease;
+}
+.arrow-label{
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  transition: color .25s ease;
+}
+
+.arrow:hover .arrow-glyph,
+.arrow:focus-visible .arrow-glyph{
+  background:var(--ink);
+  color:var(--linen);
+  transform:scale(1.08);
+}
+.arrow:hover .arrow-label,
+.arrow:focus-visible .arrow-label{ color:var(--ink); }
+.arrow:active .arrow-glyph{ transform:scale(0.94); background:var(--accent); border-color:var(--accent); }
+
+.arrow.is-pulsing .arrow-glyph{
+  animation: pulse .5s var(--pan-ease);
+}
+@keyframes pulse{
+  0%{ transform:scale(1); }
+  40%{ transform:scale(1.18); background:var(--accent); color:var(--linen); border-color:var(--accent); }
+  100%{ transform:scale(1); }
+}
+
+.arrow-left{ left:6%; top:50%; transform:translateY(-50%); }
+.arrow-right{ right:6%; top:50%; transform:translateY(-50%); }
+.arrow-down{ bottom:6%; left:50%; transform:translateX(-50%); flex-direction:column; }
+
+.arrow[data-state="hidden"]{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-50%) scale(0.85);
+}
+.arrow-down[data-state="hidden"]{ transform:translateX(-50%) scale(0.85); }
+
+.arrow[data-state="home"] .arrow-glyph{ border-color:var(--ink-soft); }
+
+/* ============================================================
+   LIGHTBOX
+   ============================================================ */
+#lightbox{
+  position:fixed; inset:0;
+  z-index:90;
+  background:rgba(44,41,37,0.92);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .35s ease;
+}
+#lightbox.is-open{ opacity:1; pointer-events:auto; }
+#lightboxContent{
+  max-width:88vw;
+  max-height:86vh;
+}
+#lightboxContent img, #lightboxContent video{
+  max-width:88vw;
+  max-height:86vh;
+  display:block;
+  object-fit:contain;
+}
+#lightboxClose{
+  position:absolute;
+  top:24px; right:28px;
+  font-size:28px;
+  color:var(--linen);
+  line-height:1;
+}
+#lightboxClose:hover{ color:var(--accent); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px){
+  .panel{ padding:90px 6vw 100px; }
+  .photo-grid{ grid-template-columns:repeat(2,1fr); max-height:58vh; }
+  .work-item, .work-item.flip{ flex-direction:column; }
+  .work-media{ flex:0 0 auto; width:100%; }
+  .arrow-left{ left:3%; }
+  .arrow-right{ right:3%; }
+  .arrow-label{ display:none; }
+  .home-block h1{ font-size:24px; }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  #world{ transition:none; }
+  .home-block{ animation:none; }
+  .work-item{ transition:none; opacity:1; transform:none; }
+  .arrow, .arrow-glyph, .arrow-label{ transition:none; }
+  #loader{ transition:none; }
+}
