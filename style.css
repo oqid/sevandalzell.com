@@ -77,7 +77,8 @@ button{
   text-transform:lowercase;
   font-weight:700;
 }
-.loader-mark.flicker{ color:var(--accent); }
+/* previously --accent \/   */
+.loader-mark.flicker{ color:var(--ink-soft); } 
 
 .loader-sub{
   margin-top:14px;
