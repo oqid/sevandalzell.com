@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loaderDate.textContent = 'Sevan Dalzell ' + new Date().getFullYear();
 const flickerFrames = ['!ii', 'v!i', 'vi!', 'v!i', '!ii', 'v!i', 'vi!'];
-const FLICKER_INTERVAL_MS = 100;
+const FLICKER_INTERVAL_MS = 110;
 const TOTAL_FRAMES = flickerFrames.length;
 let frame = 0;
 
