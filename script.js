@@ -530,28 +530,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setActiveProjectMedia(mediaWrap, index) {
-    const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
-    if (!mediaEls.length) return;
+  const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
+  if (!mediaEls.length) return;
 
-    const nextIndex = ((index % mediaEls.length) + mediaEls.length) % mediaEls.length;
-    mediaEls.forEach((el, i) => {
-      const isActive = i === nextIndex;
-      el.classList.toggle('is-active', isActive);
-      if (el.tagName === 'VIDEO') {
-        if (isActive) {
-          const playPromise = el.play();
-          if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
-        } else {
-          el.pause();
-        }
-      }
-    });
-
-    mediaWrap.dataset.activeIndex = String(nextIndex);
-    const counter = mediaWrap.querySelector('.landmark-media-counter');
-    if (counter) counter.textContent = `${nextIndex + 1}/${mediaEls.length}`;
-    updateProjectMediaDescription(mediaWrap, mediaEls[nextIndex]);
+  const nextIndex = ((index % mediaEls.length) + mediaEls.length) % mediaEls.length;
+  
+  // Remove active from ALL items
+  mediaEls.forEach((el, i) => {
+    el.classList.remove('is-active');
+    if (el.tagName === 'VIDEO') {
+      el.pause();
+    }
+  });
+  
+  // Add active to the new item
+  const newActive = mediaEls[nextIndex];
+  newActive.classList.add('is-active');
+  
+  if (newActive.tagName === 'VIDEO') {
+    const playPromise = newActive.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {});
+    }
   }
+
+  mediaWrap.dataset.activeIndex = String(nextIndex);
+  const counter = mediaWrap.querySelector('.landmark-media-counter');
+  if (counter) counter.textContent = `${nextIndex + 1}/${mediaEls.length}`;
+  updateProjectMediaDescription(mediaWrap, mediaEls[nextIndex]);
+}
 
   function getActiveProjectMedia(mediaWrap) {
     const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
@@ -561,34 +568,51 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startProjectSlideshow(mediaWrap, intervalMs = PROJECT_SLIDESHOW_MS) {
-    const mediaEls = mediaWrap.querySelectorAll('.landmark-media-item');
-    if (mediaEls.length <= 1) return null;
+  const mediaEls = mediaWrap.querySelectorAll('.landmark-media-item');
+  if (mediaEls.length <= 1) return null;
 
-    let timer = null;
-    const next = () => {
-      const currentIndex = Number.parseInt(mediaWrap.dataset.activeIndex || '0', 10);
-      setActiveProjectMedia(mediaWrap, currentIndex + 1);
-    };
+  let timer = null;
+  let isPaused = false;
 
-    const stop = () => {
-      if (!timer) return;
-      window.clearInterval(timer);
+  const next = () => {
+    if (isPaused) return;
+    const currentIndex = Number.parseInt(mediaWrap.dataset.activeIndex || '0', 10);
+    const nextIndex = (currentIndex + 1) % mediaEls.length;
+    setActiveProjectMedia(mediaWrap, nextIndex);
+  };
+
+  const stop = () => {
+    if (timer) {
+      clearInterval(timer);
       timer = null;
-    };
+    }
+  };
 
-    const start = () => {
-      stop();
-      timer = window.setInterval(next, intervalMs);
-    };
+  const start = () => {
+    stop();
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      timer = setInterval(next, intervalMs);
+    }, 100);
+  };
 
-    mediaWrap.addEventListener('mouseenter', stop);
-    mediaWrap.addEventListener('mouseleave', start);
-    mediaWrap.addEventListener('focusin', stop);
-    mediaWrap.addEventListener('focusout', start);
-
+  // Pause on hover
+  mediaWrap.addEventListener('mouseenter', () => {
+    isPaused = true;
+    stop();
+  });
+  
+  mediaWrap.addEventListener('mouseleave', () => {
+    isPaused = false;
     start();
-    return { start, stop, restart: start };
-  }
+  });
+
+  // Start the slideshow
+  start();
+  
+  return { start, stop, restart: start };
+}
+
 
   PROJECTS.forEach((p, i) => {
     const item = document.createElement('article');
