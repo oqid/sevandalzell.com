@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Flip to true, push, and the site shows only the loader + a
   // "under construction" tag — no nav, no panels reachable.
   // Flip back to false and push to bring the full site back.
-  const UNDER_CONSTRUCTION = false;
+  const UNDER_CONSTRUCTION = true;
 
   // Portfolio projects — alternates image/text, text/image automatically.
   // type: 'image' | 'video'  (use 'video' for autoplaying muted clips/gifs-as-mp4)
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loaderDate.textContent = 'Sevan Dalzell ' + new Date().getFullYear();
 const flickerFrames = ['!ii', 'v!i', 'vi!', 'v!i', '!ii', 'v!i', 'vi!'];
-const FLICKER_INTERVAL_MS = 130;
+const FLICKER_INTERVAL_MS = 100;
 const TOTAL_FRAMES = flickerFrames.length;
 let frame = 0;
 
@@ -68,6 +68,13 @@ const flickerInterval = setInterval(() => {
     loaderMark.classList.remove('flicker');
     
     // Step 2: Fade out loader
+
+    if (UNDER_CONSTRUCTION) {
+    loaderMark.textContent = 'vii';
+    loaderMark.classList.remove('flicker');
+    document.getElementById('loaderSub').classList.add('is-visible');
+    return;
+    }
     loader.classList.add('is-fading-out');
     
     // Step 3: After fade out completes (500ms), hide loader and show content
