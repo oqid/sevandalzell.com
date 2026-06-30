@@ -11,17 +11,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Flip to true, push, and the site shows only the loader + a
   // "under construction" tag — no nav, no panels reachable.
   // Flip back to false and push to bring the full site back.
-  const UNDER_CONSTRUCTION = true;
+  const UNDER_CONSTRUCTION = false;
 
   // Portfolio projects — rendered as alternating left-third/right-third
-  // "landmarks" you scroll past. Set feature:true on any project to make
-  // it a full-width image break instead (good for a hero shot of a build).
+  // "landmarks" you scroll past. media can be:
+  // 1) a string path, e.g. 'assets/projects/firefighter.jpg'
+  // 2) an array of paths for a simple media carousel
+  // 3) an array of { src, type } objects for mixed image/video media
+  // Set feature:true on any project to make it a full-width image break.
   const PROJECTS = [
     {
       title: 'Autonomous fire-fighting robot',
       desc: 'Mecanum-wheeled platform built for MECHENG 706 — phototransistor flame sensing, IMU-stabilised heading, and an Arduino Mega driving the full control stack. I led system integration: pinouts, FSM design, and power architecture.',
       tags: 'Arduino · Mecanum drive · FSM · IMU',
-      media: 'assets/projects/firefighter.jpg',
+      media: [
+        {
+          src: 'assets/projects/firefighter.jpg',
+          type: 'image',
+          desc: 'Bench test run: flame sensor array and drivetrain tuning on the first integrated prototype.'
+        },
+        {
+          src: 'assets/projects/ift.jpg',
+          type: 'image',
+          desc: 'Slideshow verification frame: controller sweep comparison during tuning pass.'
+        }
+      ],
       type: 'image'
     },
     {
@@ -62,6 +76,30 @@ document.addEventListener('DOMContentLoaded', () => {
     { src: 'assets/photography/06.jpg', title: 'Untitled 06', tech: 'Fujifilm X-T30 · 56mm f1.2' },
     { src: 'assets/photography/07.jpg', title: 'Untitled 07', tech: 'Fujifilm X-T30 · 35mm f1.4' },
     { src: 'assets/photography/08.jpg', title: 'Untitled 08', tech: 'Fujifilm X-T30 · 23mm f2' }
+  ];
+
+  // Optional image-only expansion entries rendered directly under a project.
+  // attachTo: project title string
+  // entryType: 'left' | 'right' | 'feature' (mirrors the parent layout intent)
+  // images: up to 2 for left/right, up to 3 for feature
+  const PORTFOLIO_IMAGE_EXPANSIONS = [
+    {
+      attachTo: 'GMP renewal automation',
+      entryType: 'right',
+      images: [
+        { src: 'assets/projects/elitepac.jpg', desc: 'Document automation workflow snapshot.' },
+        { src: 'assets/projects/firefighter.jpg' }
+      ]
+    },
+    {
+      attachTo: 'Total artificial heart — capstone',
+      entryType: 'feature',
+      images: [
+        { src: 'assets/projects/heart.jpg', desc: 'Flow loop bench setup.' },
+        { src: 'assets/projects/ift.jpg' },
+        { src: 'assets/projects/elitepac.jpg' }
+      ]
+    }
   ];
 
   /* ----------------------------------------------------------
@@ -389,6 +427,168 @@ document.addEventListener('DOMContentLoaded', () => {
      4. PORTFOLIO — landmarks, scroll-revealed
      ---------------------------------------------------------- */
   const landmarksEl = document.getElementById('landmarks');
+  const PROJECT_SLIDESHOW_MS = 3600;
+
+  function normalizeProjectMediaItems(project) {
+    const raw = Array.isArray(project.media) ? project.media : [project.media];
+    const fallbackType = project.type || 'image';
+
+    return normalizeMediaEntries(raw, fallbackType);
+  }
+
+  function normalizeMediaEntries(rawEntries, fallbackType = 'image') {
+    const raw = Array.isArray(rawEntries) ? rawEntries : [rawEntries];
+
+    return raw
+      .filter(Boolean)
+      .map((entry) => {
+        if (typeof entry === 'string') {
+          return { src: entry, type: fallbackType, description: '' };
+        }
+        return {
+          src: entry.src,
+          type: entry.type || fallbackType,
+          description: entry.desc || entry.description || ''
+        };
+      })
+      .filter((entry) => Boolean(entry.src));
+  }
+
+  function createMediaTile(media, fallbackAlt = '') {
+    const mediaWrap = document.createElement('div');
+    mediaWrap.className = 'landmark-media';
+
+    const mediaTrack = document.createElement('div');
+    mediaTrack.className = 'landmark-media-track';
+
+    const mediaEl = media.type === 'video'
+      ? Object.assign(document.createElement('video'), {
+          src: media.src,
+          autoplay: true,
+          loop: true,
+          muted: true,
+          playsInline: true
+        })
+      : Object.assign(document.createElement('img'), {
+          src: media.src,
+          alt: fallbackAlt,
+          loading: 'lazy'
+        });
+
+    mediaEl.classList.add('landmark-media-item', 'is-active');
+    mediaEl.dataset.src = media.src;
+    mediaEl.dataset.type = media.type;
+    mediaEl.dataset.description = media.description || '';
+    mediaTrack.appendChild(mediaEl);
+    mediaWrap.appendChild(mediaTrack);
+    attachMissingFallback(mediaWrap, mediaEl, media.src);
+
+    const mediaCaption = document.createElement('div');
+    mediaCaption.className = 'landmark-media-caption';
+    mediaCaption.innerHTML = '<p class="landmark-media-caption-body"></p>';
+    mediaWrap.dataset.hasDescription = 'false';
+    mediaWrap.appendChild(mediaCaption);
+    updateProjectMediaDescription(mediaWrap, mediaEl);
+
+    return mediaWrap;
+  }
+
+  function renderPortfolioExpansion(expansion) {
+    const entryType = expansion.entryType || 'left';
+    const maxImages = entryType === 'feature' ? 3 : 2;
+    const mediaItems = normalizeMediaEntries(expansion.images, 'image').slice(0, maxImages);
+    if (!mediaItems.length) return null;
+
+    const item = document.createElement('article');
+    item.className = `landmark landmark-expansion landmark-expansion--${entryType}`;
+
+    const grid = document.createElement('div');
+    grid.className = 'landmark-expansion-grid';
+
+    mediaItems.forEach((media, index) => {
+      const tile = createMediaTile(media, `${expansion.attachTo || 'project'} media ${index + 1}`);
+      tile.classList.add('landmark-expansion-media', `landmark-expansion-media-${index + 1}`);
+      grid.appendChild(tile);
+    });
+
+    item.appendChild(grid);
+    return item;
+  }
+
+  function updateProjectMediaDescription(mediaWrap, mediaEl) {
+    const captionBody = mediaWrap.querySelector('.landmark-media-caption-body');
+    if (!captionBody || !mediaEl) return;
+
+    const description = mediaEl.dataset.description || '';
+    if (description) {
+      mediaWrap.dataset.hasDescription = 'true';
+      captionBody.textContent = description;
+    } else {
+      mediaWrap.dataset.hasDescription = 'false';
+      captionBody.textContent = '';
+    }
+  }
+
+  function setActiveProjectMedia(mediaWrap, index) {
+    const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
+    if (!mediaEls.length) return;
+
+    const nextIndex = ((index % mediaEls.length) + mediaEls.length) % mediaEls.length;
+    mediaEls.forEach((el, i) => {
+      const isActive = i === nextIndex;
+      el.classList.toggle('is-active', isActive);
+      if (el.tagName === 'VIDEO') {
+        if (isActive) {
+          const playPromise = el.play();
+          if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {});
+        } else {
+          el.pause();
+        }
+      }
+    });
+
+    mediaWrap.dataset.activeIndex = String(nextIndex);
+    const counter = mediaWrap.querySelector('.landmark-media-counter');
+    if (counter) counter.textContent = `${nextIndex + 1}/${mediaEls.length}`;
+    updateProjectMediaDescription(mediaWrap, mediaEls[nextIndex]);
+  }
+
+  function getActiveProjectMedia(mediaWrap) {
+    const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
+    if (!mediaEls.length) return null;
+    const active = mediaWrap.querySelector('.landmark-media-item.is-active');
+    return active || mediaEls[0];
+  }
+
+  function startProjectSlideshow(mediaWrap, intervalMs = PROJECT_SLIDESHOW_MS) {
+    const mediaEls = mediaWrap.querySelectorAll('.landmark-media-item');
+    if (mediaEls.length <= 1) return null;
+
+    let timer = null;
+    const next = () => {
+      const currentIndex = Number.parseInt(mediaWrap.dataset.activeIndex || '0', 10);
+      setActiveProjectMedia(mediaWrap, currentIndex + 1);
+    };
+
+    const stop = () => {
+      if (!timer) return;
+      window.clearInterval(timer);
+      timer = null;
+    };
+
+    const start = () => {
+      stop();
+      timer = window.setInterval(next, intervalMs);
+    };
+
+    mediaWrap.addEventListener('mouseenter', stop);
+    mediaWrap.addEventListener('mouseleave', start);
+    mediaWrap.addEventListener('focusin', stop);
+    mediaWrap.addEventListener('focusout', start);
+
+    start();
+    return { start, stop, restart: start };
+  }
 
   PROJECTS.forEach((p, i) => {
     const item = document.createElement('article');
@@ -398,14 +598,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const mediaWrap = document.createElement('div');
     mediaWrap.className = 'landmark-media';
 
-    const mediaEl = p.type === 'video'
-      ? Object.assign(document.createElement('video'), { src: p.media, autoplay: true, loop: true, muted: true, playsInline: true })
-      : Object.assign(document.createElement('img'), { src: p.media, alt: p.title, loading: 'lazy' });
+    const mediaTrack = document.createElement('div');
+    mediaTrack.className = 'landmark-media-track';
 
-    mediaWrap.dataset.media = p.media;
-    mediaWrap.dataset.type = p.type;
-    mediaWrap.appendChild(mediaEl);
-    attachMissingFallback(mediaWrap, mediaEl, p.media);
+    const mediaItems = normalizeProjectMediaItems(p);
+    mediaItems.forEach((media, mediaIndex) => {
+      const mediaEl = media.type === 'video'
+        ? Object.assign(document.createElement('video'), {
+            src: media.src,
+            autoplay: true,
+            loop: true,
+            muted: true,
+            playsInline: true
+          })
+        : Object.assign(document.createElement('img'), {
+            src: media.src,
+            alt: p.title,
+            loading: 'lazy'
+          });
+
+      mediaEl.classList.add('landmark-media-item');
+      if (mediaIndex === 0) mediaEl.classList.add('is-active');
+      mediaEl.dataset.src = media.src;
+      mediaEl.dataset.type = media.type;
+      mediaEl.dataset.description = media.description || '';
+      mediaTrack.appendChild(mediaEl);
+      attachMissingFallback(mediaWrap, mediaEl, media.src);
+    });
+
+    mediaWrap.appendChild(mediaTrack);
+
+    const mediaCaption = document.createElement('div');
+    mediaCaption.className = 'landmark-media-caption';
+    mediaCaption.innerHTML = '<p class="landmark-media-caption-body"></p>';
+    mediaWrap.dataset.hasDescription = 'false';
+    mediaWrap.appendChild(mediaCaption);
+
+    let slideshow = null;
+
+    if (mediaItems.length > 1) {
+      mediaWrap.classList.add('has-multi');
+      mediaWrap.dataset.activeIndex = '0';
+
+      const controls = document.createElement('div');
+      mediaWrap.appendChild(controls);
+      slideshow = startProjectSlideshow(mediaWrap);
+    }
+
+    setActiveProjectMedia(mediaWrap, 0);
 
     const cap = document.createElement('div');
     cap.className = 'landmark-cap';
@@ -419,18 +659,23 @@ document.addEventListener('DOMContentLoaded', () => {
     item.appendChild(mediaWrap);
     item.appendChild(cap);
     landmarksEl.appendChild(item);
+
+    PORTFOLIO_IMAGE_EXPANSIONS
+      .filter((entry) => entry.attachTo === p.title)
+      .forEach((entry) => {
+        const expansionEl = renderPortfolioExpansion(entry);
+        if (expansionEl) landmarksEl.appendChild(expansionEl);
+      });
   });
 
   /* ----------------------------------------------------------
      5. PHOTOGRAPHY — mosaic
      ---------------------------------------------------------- */
   const mosaicEl = document.getElementById('mosaic');
-  const TILE_PATTERN = ['a', 'd', 'c', 'b', 'd', 'd', 'c', 'a', 'b', 'd'];
 
-  PHOTOS.forEach((photo, i) => {
+  PHOTOS.forEach((photo) => {
     const item = document.createElement('figure');
-    const size = TILE_PATTERN[i % TILE_PATTERN.length];
-    item.className = `mosaic-item mosaic-item--${size}`;
+    item.className = 'mosaic-item';
 
     const img = new Image();
     img.src = photo.src;
@@ -481,9 +726,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('click', (e) => {
+    if (e.target.closest('.landmark-media-controls')) return;
+
     const landmarkMedia = e.target.closest('.landmark-media');
     if (landmarkMedia && !landmarkMedia.querySelector('.media-missing')) {
-      openLightbox(landmarkMedia.dataset.media, landmarkMedia.dataset.type);
+      const activeMedia = getActiveProjectMedia(landmarkMedia);
+      if (activeMedia) openLightbox(activeMedia.dataset.src, activeMedia.dataset.type);
       return;
     }
     const mosaicItem = e.target.closest('.mosaic-item');
