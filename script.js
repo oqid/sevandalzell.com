@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Flip to true, push, and the site shows only the loader + a
   // "under construction" tag — no nav, no panels reachable.
   // Flip back to false and push to bring the full site back.
-  const UNDER_CONSTRUCTION = true;
+  const UNDER_CONSTRUCTION = false;
 
   // Portfolio projects — alternates image/text, text/image automatically.
   // type: 'image' | 'video'  (use 'video' for autoplaying muted clips/gifs-as-mp4)
@@ -54,26 +54,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const loaderDate = document.getElementById('loaderDate');
 
   loaderDate.textContent = 'Sevan Dalzell ' + new Date().getFullYear();
+const flickerFrames = ['!ii', 'v!i', 'vi!', 'v!i', '!ii', 'v!i', 'vi!'];
+const FLICKER_INTERVAL_MS = 130;
+const TOTAL_FRAMES = flickerFrames.length;
+let frame = 0;
 
-  const flickerFrames = ['vii', 'v!i', 'vi!', '!ii', 'vii', 'vi!', 'vii'];
-  let frame = 0;
-  const flickerInterval = setInterval(() => {
-    frame++;
-    if (frame >= flickerFrames.length) {
-      clearInterval(flickerInterval);
-      loaderMark.textContent = 'vii';
-      loaderMark.classList.remove('flicker');
-
-      if (UNDER_CONSTRUCTION) {
-        document.getElementById('loaderSub').classList.add('is-visible');
-      } else {
-        setTimeout(() => loader.classList.add('is-hidden'), 380);
+const flickerInterval = setInterval(() => {
+  if (frame >= TOTAL_FRAMES) {
+    clearInterval(flickerInterval);
+    
+    // Step 1: Set final text
+    loaderMark.textContent = 'vii';
+    loaderMark.classList.remove('flicker');
+    
+    // Step 2: Fade out loader
+    loader.classList.add('is-fading-out');
+    
+    // Step 3: After fade out completes (500ms), hide loader and show content
+    setTimeout(() => {
+      loader.classList.add('is-hidden');
+      
+      // Show the website content 
+      if (!UNDER_CONSTRUCTION) {
+        // Add a class to reveal the main content
+        document.getElementById('app').classList.add('is-visible');
+        // Or if your content is directly in body:
+        document.body.classList.add('content-visible');
       }
-      return;
+    }, 500); // Match this to your CSS transition duration
+    
+    if (UNDER_CONSTRUCTION) {
+      document.getElementById('loaderSub').classList.add('is-visible');
     }
-    loaderMark.textContent = flickerFrames[frame];
-    loaderMark.classList.toggle('flicker', flickerFrames[frame].includes('!'));
-  }, 130);
+    return;
+  }
+  
+  const currentFrame = flickerFrames[frame];
+  loaderMark.textContent = currentFrame;
+  loaderMark.classList.toggle('flicker', currentFrame.includes('!'));
+  frame++;
+}, FLICKER_INTERVAL_MS);
 
   if (UNDER_CONSTRUCTION) return; // skip nav/portfolio/lightbox setup entirely
 

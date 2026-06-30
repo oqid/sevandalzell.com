@@ -175,7 +175,7 @@ button{
 /* ---------- HOME ---------- */
 .home-block{
   max-width:460px;
-  text-align:left;
+  text-align:justify;
   animation: rise .9s var(--pan-ease) both;
 }
 .home-block h1{
