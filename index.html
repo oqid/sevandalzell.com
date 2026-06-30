@@ -22,6 +22,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<!-- fontawesome icons (just used for cv button rn) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <!-- Temporary favicon set from that random generator -->
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -60,7 +62,7 @@
   </button>
 </nav>
 
-<!-- ===== WORLD (the plane that pans) ===== -->
+<!-- ===== WORLD (the plane that pans btw) ===== -->
 <main id="world">
 
   <!-- deprecated feature for now -->
@@ -70,18 +72,19 @@
   </svg> -->
 
   <!-- HOME — 0,0 -->
-  <section class="panel panel-home" data-pos="0,0">
-    <div class="home-block">
-      <p class="eyebrow">mechatronics engineer</p>
-      <h1>Sevan Dalzell</h1>
-      <p class="home-body">
-        Final-year mechatronics engineering graduate based in Auckland.
-        I build the parts where hardware, control, and software have to
-        agree with each other — robotics, embedded systems, and the
-        occasional camera. Use the arrows, or your keyboard, to look around.
-      </p>
-    </div>
-  </section>
+<section class="panel panel-home" data-pos="0,0">
+  <div class="home-block">
+    <p class="eyebrow">welcome to my website !! <br>my name is</p>
+    <h1>Sevan Dalzell</h1>
+    <p class="home-body">
+      A final-year mechatronics engineering student passionate about
+      the interplay of design, technology and art.
+    </p>
+    <!-- <p class="eyebrow">
+      Try navigate this site with the arrow keys 🡰 🡲 🡳 it's way more fun.
+    </p> -->
+  </div>
+</section>
 
   <!-- PHOTOGRAPHY — -1,0 -->
   <section class="panel panel-photo panel-scrollable" data-pos="-1,0">
@@ -131,7 +134,18 @@
   <section class="panel panel-about" data-pos="0,1">
     <div class="about-layout">
       <div class="about-portrait">
-        <img src="assets/photography/03.jpg" alt="Portrait of Sevan Dalzell" loading="lazy">
+        <img 
+          srcset="
+            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_400/Sevan_1_alt_qmyagr 400w,
+            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_800/Sevan_1_alt_qmyagr 800w,
+            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_1200/Sevan_1_alt_qmyagr 1200w
+          "
+          sizes="(max-width: 720px) 100vw, 400px"
+          src="https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_400,usm_0.66_1.00_0.01/Sevan_1_alt_qmyagr"
+          alt="Portrait of Sevan Dalzell" 
+          loading="lazy"
+          onerror="this.onerror=null; this.srcset=''; this.src='assets/portrait.avif';"
+        >
       </div>
       <div class="about-main">
         <div class="panel-head">
@@ -153,16 +167,17 @@
             all the same problem really.
           </p>
           <p class="about-contact">
-            <a href="mailto:hello@sevandalzell.com">hello@sevandalzell.com</a>
+            <a href="mailto:contact@sevandalzell.com">contact@sevandalzell.com</a>
             <span class="dim">/</span>
-            <a href="https://github.com/" target="_blank" rel="noopener">github</a>
-            <span class="dim">/</span>
-            <a href="https://www.linkedin.com/" target="_blank" rel="noopener">linkedin</a>
+            <!-- <a href="https://github.com/" target="_blank" rel="noopener">github</a>
+            <span class="dim">/</span> -->
+            <a href="https://www.linkedin.com/in/sevandalzell/" target="_blank" rel="noopener">linkedin</a>
           </p>
         </div>
-        <a class="about-cv" href="assets/Sevan-Dalzell-CV.pdf" download aria-label="Download CV">
-          <span class="about-cv-glyph">&darr;</span>
-          <span class="about-cv-label">download cv</span>
+        <a class="about-cv" href="assets/Sevan-Dalzell-CV.pdf" target="_blank" rel="noopener noreferrer" aria-label="View CV">
+          <i class="fa-solid fa-arrow-up-right-from-square fa-2xs about-cv-icon"></i>
+          <!-- or fa-2xs for even smaller -->
+          <span class="about-cv-label">view cv</span>
         </a>
       </div>
     </div>
