@@ -231,7 +231,8 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
   justify-content:center;
   padding:0 9vw;
 }
-.scroll-hero-inner{ max-width:340px; }
+/* changed from 340 to 450 to widen the entry text for the diff. sections  */
+.scroll-hero-inner{ max-width:450px; }
 .scroll-hero-inner h2{ font-size:22px; font-weight:700; margin-bottom:14px; }
 .scroll-hero-body{
   font-size:13px;
@@ -258,7 +259,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
 }
 
 /* photography: text sits in the right third */
-.panel-photo .scroll-hero{ align-items:flex-end; }
+.panel-photo .scroll-hero{ text-align:right; align-items:flex-end; }
 .panel-photo .scroll-hero-inner{
   text-align:right;
   margin-right:var(--nav-safe-gutter);
