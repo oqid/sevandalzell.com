@@ -461,6 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
      ---------------------------------------------------------- */
   const landmarksEl = document.getElementById('landmarks');
   const PROJECT_SLIDESHOW_MS = 3600;
+  const PROJECT_SLIDESHOW_FIRST_DELAY_MS = 6500;
 
   function normalizeProjectMediaItems(project) {
     const raw = Array.isArray(project.media) ? project.media : [project.media];
@@ -627,6 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let timer = null;
   let isPaused = false;
+  let hasAdvancedOnce = false;
 
   const next = () => {
     if (isPaused) return;
@@ -637,6 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const stop = () => {
     if (timer) {
+      clearTimeout(timer);
       clearInterval(timer);
       timer = null;
     }
@@ -644,10 +647,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const start = () => {
     stop();
-    // Small delay to ensure DOM is ready
-    setTimeout(() => {
+    // First run gets a longer buffer so arriving at the panel doesn't
+    // immediately show a crossfade; subsequent restarts (e.g. after a
+    // hover pause) resume at the normal interval.
+    const firstDelay = hasAdvancedOnce ? 100 : PROJECT_SLIDESHOW_FIRST_DELAY_MS;
+    timer = setTimeout(() => {
+      hasAdvancedOnce = true;
+      next();
       timer = setInterval(next, intervalMs);
-    }, 100);
+    }, firstDelay);
   };
 
   // Pause on hover

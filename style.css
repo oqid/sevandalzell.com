@@ -213,7 +213,6 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
   text-align:left;
   margin-bottom:8px;
   flex:0 0 auto;
-  padding:0 8vw;
 }
 .panel-head h2{
   font-size:22px;
@@ -349,6 +348,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
   margin-left:calc(50% - 50vw);
   margin-right:calc(50% - 50vw);
   text-align:center;
+  gap:40px;
 }
 .landmark--feature .landmark-cap{
   align-items:center;
@@ -464,7 +464,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
 .landmark-cap{ display:flex; flex-direction:column; gap:6px; }
 .landmark-index{ font-size:10px; letter-spacing:.14em; color:var(--accent); }
 .landmark-title{ font-size:14px; font-weight:700; }
-.landmark-desc{ font-size:12px; line-height:1.65; color:var(--ink-soft); }
+.landmark-desc{ font-size:12px; line-height:1.65; color:var(--ink-soft); text-align:justify; }
 .landmark-tags{ font-size:9.5px; letter-spacing:.07em; color:var(--ink-soft); }
 
 .landmark-expansion{
@@ -545,6 +545,31 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
 
 /* ---------- ABOUT ---------- */
 .panel-about{ padding-top:90px; padding-bottom:70px; }
+.about-layout{
+  display:flex;
+  align-items:flex-start;
+  gap:44px;
+  width:100%;
+  max-width:780px;
+}
+.about-portrait{
+  flex:0 0 auto;
+  width:200px;
+  aspect-ratio:3/4;
+  overflow:hidden;
+  border-radius:3px;
+}
+.about-portrait img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 30%;
+}
+.about-main{
+  flex:1 1 auto;
+  min-width:0;
+}
 .about-block{
   max-width:480px;
   text-align:left;
@@ -687,7 +712,6 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
    ============================================================ */
 @media (max-width: 720px){
   :root{ --nav-safe-gutter: 52px; }
-  .panel-head{ padding:0 6vw; }
   .scroll-hero{ padding:0 7vw; }
   .scroll-hero-inner{ max-width:none; }
   .landmark--left{ margin-left:6vw; }
@@ -739,6 +763,13 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb{
   .inpanel-home .arrow-label{ display:none; }
   .arrow-label{ display:none; }
   .home-block h1{ font-size:24px; }
+  .about-layout{
+    flex-direction:column;
+    align-items:center;
+    gap:24px;
+    max-width:88vw;
+  }
+  .about-portrait{ width:140px; }
 }
 
 /* ============================================================
