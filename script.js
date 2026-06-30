@@ -80,8 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Optional image-only expansion entries rendered directly under a project.
   // attachTo: project title string
-  // entryType: 'left' | 'right' | 'feature' (mirrors the parent layout intent)
-  // images: up to 2 for left/right, up to 3 for feature
+  // entryType: only matters for the explicit value 'feature', which renders
+  //   a full-bleed image break (like the capstone one below). Anything else
+  //   is ignored — left/right entries automatically attach as a small
+  //   two-image row tucked under that project's own image, mirrored to
+  //   whichever side the parent project is actually on (so it can never
+  //   end up misaligned).
+  // images: up to 2 for left/right entries, up to 3 for feature entries
   const PORTFOLIO_IMAGE_EXPANSIONS = [
     {
       attachTo: 'GMP renewal automation',
@@ -424,6 +429,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ----------------------------------------------------------
+     3b. HELPER — preserve each photo's real aspect ratio instead
+     of cropping it to a fixed box. We size the container off the
+     PRIMARY (first) image only, so a slideshow's box stays stable
+     while it cycles — later slides letterbox via object-fit:contain
+     rather than cropping or distorting.
+     ---------------------------------------------------------- */
+  const ASPECT_MIN = 0.62; // tallest box we'll allow (portrait-ish)
+  const ASPECT_MAX = 2.2;  // widest box we'll allow (ultra-wide)
+
+  function applyNaturalAspectRatio(mediaWrap, imgEl) {
+    if (!imgEl || imgEl.tagName !== 'IMG') return;
+
+    const setRatio = () => {
+      const w = imgEl.naturalWidth;
+      const h = imgEl.naturalHeight;
+      if (!w || !h) return;
+      const ratio = Math.min(ASPECT_MAX, Math.max(ASPECT_MIN, w / h));
+      mediaWrap.style.aspectRatio = String(ratio);
+    };
+
+    if (imgEl.complete && imgEl.naturalWidth) {
+      setRatio();
+    } else {
+      imgEl.addEventListener('load', setRatio, { once: true });
+    }
+  }
+
+  /* ----------------------------------------------------------
      4. PORTFOLIO — landmarks, scroll-revealed
      ---------------------------------------------------------- */
   const landmarksEl = document.getElementById('landmarks');
@@ -482,6 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mediaTrack.appendChild(mediaEl);
     mediaWrap.appendChild(mediaTrack);
     attachMissingFallback(mediaWrap, mediaEl, media.src);
+    applyNaturalAspectRatio(mediaWrap, mediaEl);
 
     const mediaCaption = document.createElement('div');
     mediaCaption.className = 'landmark-media-caption';
@@ -493,14 +527,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return mediaWrap;
   }
 
-  function renderPortfolioExpansion(expansion) {
-    const entryType = expansion.entryType || 'left';
-    const maxImages = entryType === 'feature' ? 3 : 2;
+  // Full-width image break, used when an expansion is attached to a
+  // feature-style project (or explicitly marked entryType:'feature').
+  function renderPortfolioFeatureExpansion(expansion) {
+    const maxImages = 3;
     const mediaItems = normalizeMediaEntries(expansion.images, 'image').slice(0, maxImages);
     if (!mediaItems.length) return null;
 
     const item = document.createElement('article');
-    item.className = `landmark landmark-expansion landmark-expansion--${entryType}`;
+    item.className = 'landmark landmark-expansion landmark-expansion--feature';
 
     const grid = document.createElement('div');
     grid.className = 'landmark-expansion-grid';
@@ -513,6 +548,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     item.appendChild(grid);
     return item;
+  }
+
+  // Small two-image row tucked directly under a left/right entry's
+  // main image, forming an L shape (mirrored automatically for the
+  // right side since it lives inside that landmark's own CSS grid).
+  function renderPortfolioExpansionRow(expansion) {
+    const mediaItems = normalizeMediaEntries(expansion.images, 'image').slice(0, 2);
+    if (!mediaItems.length) return null;
+
+    const row = document.createElement('div');
+    row.className = 'landmark-expansion-row';
+
+    mediaItems.forEach((media, index) => {
+      const tile = createMediaTile(media, `${expansion.attachTo || 'project'} extra ${index + 1}`);
+      tile.classList.add('landmark-expansion-media', `landmark-expansion-media-${index + 1}`);
+      row.appendChild(tile);
+    });
+
+    return row;
   }
 
   function updateProjectMediaDescription(mediaWrap, mediaEl) {
@@ -642,7 +696,10 @@ document.addEventListener('DOMContentLoaded', () => {
           });
 
       mediaEl.classList.add('landmark-media-item');
-      if (mediaIndex === 0) mediaEl.classList.add('is-active');
+      if (mediaIndex === 0) {
+        mediaEl.classList.add('is-active');
+        applyNaturalAspectRatio(mediaWrap, mediaEl);
+      }
       mediaEl.dataset.src = media.src;
       mediaEl.dataset.type = media.type;
       mediaEl.dataset.description = media.description || '';
@@ -687,8 +744,18 @@ document.addEventListener('DOMContentLoaded', () => {
     PORTFOLIO_IMAGE_EXPANSIONS
       .filter((entry) => entry.attachTo === p.title)
       .forEach((entry) => {
-        const expansionEl = renderPortfolioExpansion(entry);
-        if (expansionEl) landmarksEl.appendChild(expansionEl);
+        // 'feature' is only honoured explicitly — everything else
+        // auto-mirrors the parent project's actual side, so an
+        // expansion can never end up misaligned from its parent.
+        const isFeature = side === 'feature' || entry.entryType === 'feature';
+
+        if (isFeature) {
+          const expansionEl = renderPortfolioFeatureExpansion(entry);
+          if (expansionEl) landmarksEl.appendChild(expansionEl);
+        } else {
+          const row = renderPortfolioExpansionRow(entry);
+          if (row) item.appendChild(row);
+        }
       });
   });
 
