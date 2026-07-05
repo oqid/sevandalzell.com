@@ -155,7 +155,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 
 .loader-sub {
   margin-top: 14px;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: .1em;
   text-transform: lowercase;
   color: var(--ink-soft);
@@ -169,11 +169,12 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 
 .loader-foot {
   position: absolute;
-  bottom: 28px;
+  bottom: 32px;
+  /* previously 28px */
   left: 0;
   right: 0;
   text-align: center;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: .1em;
   color: var(--ink-soft);
 }
@@ -293,7 +294,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 }
 
 .panel-head h2 {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 700;
 }
 
@@ -315,7 +316,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 }
 
 .scroll-hero-inner h2 {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 700;
   margin-bottom: 14px;
 }
@@ -640,25 +641,25 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 }
 
 .landmark-index {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: .14em;
   color: var(--accent);
 }
 
 .landmark-title {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 700;
 }
 
 .landmark-desc {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.65;
   color: var(--ink-soft);
   text-align: justify;
 }
 
 .landmark-tags {
-  font-size: 9.5px;
+  font-size: 10px;
   letter-spacing: .07em;
   color: var(--ink-soft);
 }
@@ -809,6 +810,9 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
   line-height: 1.75;
   color: var(--ink-soft);
   margin-bottom: 18px;
+  text-align: justify;
+  text-justify: inter-word;
+  /* mainly supported in Edge/IE, harmless elsewhere */
 }
 
 .about-contact a {
@@ -828,7 +832,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 }
 
 .about-cv-glyph {
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1;
   color: var(--linen);
 }
@@ -840,7 +844,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 }
 
 .about-cv-label {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: .1em;
   text-transform: lowercase;
   color: var(--linen);
@@ -879,7 +883,7 @@ body.is-panning .panel-scrollable::-webkit-scrollbar-thumb {
 }
 
 .arrow-label {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: .1em;
   text-transform: lowercase;
   color: var(--ink-soft);
