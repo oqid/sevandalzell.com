@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       I did at REng, and I hope to stay involved into 2027 &amp beyond from an industry 
       point of view.<br><br>`,
       tags: 'Advocacy · Inclusion · Teamwork',
-      media: 'assets/projects/elitepac.jpg',
+      media: 'assets/projects/reng.jpg',
       type: 'image'
     },
     {
@@ -128,13 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       type: 'image'
     },
-    {
-      title: 'High school design works',
-      desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      tags: 'VBA · Process automation · Elitepac NZ',
-      media: 'assets/projects/elitepac.jpg',
-      type: 'image'
-    },
+    // {
+    //   title: 'High school design works',
+    //   desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    //   tags: 'VBA · Process automation · Elitepac NZ',
+    //   media: 'assets/projects/elitepac.jpg',
+    //   type: 'image'
+    // },
   ];
 
   // Photography mosaic — just list filenames + a caption. Layout/size is
@@ -143,14 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // directly, so this list IS how you "add" photos — there's no way to
   // make it literally auto-detect new files without a backend.
   const PHOTOS = [
-    { src: 'assets/photography/01.jpg', title: 'Untitled 01', tech: 'Fujifilm X-T30 · 35mm f1.4' },
-    { src: 'assets/photography/02.jpg', title: 'Untitled 02', tech: 'Fujifilm X-T30 · 23mm f2' },
-    { src: 'assets/photography/03.jpg', title: 'Untitled 03', tech: 'Fujifilm X-T30 · 56mm f1.2' },
-    { src: 'assets/photography/04.jpg', title: 'Untitled 04', tech: 'Fujifilm X-T30 · 35mm f1.4' },
-    { src: 'assets/photography/05.jpg', title: 'Untitled 05', tech: 'Fujifilm X-T30 · 23mm f2' },
-    { src: 'assets/photography/06.jpg', title: 'Untitled 06', tech: 'Fujifilm X-T30 · 56mm f1.2' },
-    { src: 'assets/photography/07.jpg', title: 'Untitled 07', tech: 'Fujifilm X-T30 · 35mm f1.4' },
-    { src: 'assets/photography/08.jpg', title: 'Untitled 08', tech: 'Fujifilm X-T30 · 23mm f2' }
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 01', tech: 'Fujifilm X-T30 · 35mm f1.4' },
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 02', tech: 'Fujifilm X-T30 · 23mm f2' },
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 03', tech: 'Fujifilm X-T30 · 56mm f1.2' },
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 04', tech: 'Fujifilm X-T30 · 35mm f1.4' },
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 05', tech: 'Fujifilm X-T30 · 23mm f2' },
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 06', tech: 'Fujifilm X-T30 · 56mm f1.2' },
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 07', tech: 'Fujifilm X-T30 · 35mm f1.4' },
+    { src: 'assets/photography/constructionlowres.jpg', title: 'Untitled 08', tech: 'Fujifilm X-T30 · 23mm f2' }
   ];
 
   // Optional image-only expansion entries rendered directly under a project.
