@@ -1,198 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>portfolio | Sevan Dalzell</title>
-<meta name="description" content="Sevan's portfolio site.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>portfolio | Sevan Dalzell</title>
+  <meta name="description" content="Sevan's portfolio site.">
 
-<!-- Open Graph / Discord / Slack / etc embed preview -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="portfolio | Sevan Dalzell">
-<meta property="og:site_name" content="vii">
-<meta property="og:description" content="Sevan's portfolio site.">
-<meta property="og:url" content="https://sevandalzell.com">
-<meta property="og:image" content="https://sevandalzell.com/assets/preview.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="portfolio | Sevan Dalzell">
-<meta name="twitter:description" content="Sevan's portfolio site.">
-<meta name="twitter:image" content="https://sevandalzell.com/assets/preview.png">
+  <!-- Open Graph / Discord / Slack / etc embed preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="portfolio | Sevan Dalzell">
+  <meta property="og:site_name" content="vii">
+  <meta property="og:description" content="Sevan's portfolio site.">
+  <meta property="og:url" content="https://sevandalzell.com">
+  <meta property="og:image" content="https://sevandalzell.com/assets/preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="portfolio | Sevan Dalzell">
+  <meta name="twitter:description" content="Sevan's portfolio site.">
+  <meta name="twitter:image" content="https://sevandalzell.com/assets/preview.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<!-- fontawesome icons (just used for cv button rn) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- fontawesome icons (just used for cv button rn) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<!-- Temporary favicon set from that random generator -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+  <!-- Temporary favicon set from that random generator -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 </head>
+
 <body>
 
-<!-- ===== LOADER ===== -->
-<div id="loader" aria-hidden="true">
-  <div class="loader-mark" id="loaderMark">vii</div>
-  <div class="loader-sub" id="loaderSub">under construction... back soon !!</div>
-  <div class="loader-foot">
-    <span id="loaderDate"></span>
+  <!-- ===== LOADER ===== -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-mark" id="loaderMark">vii</div>
+    <div class="loader-sub" id="loaderSub">under construction... back soon !!</div>
+    <div class="loader-foot">
+      <span id="loaderDate"></span>
+    </div>
   </div>
-</div>
 
-<!-- ===== DIRECTIONAL NAV ===== -->
-<nav class="dirnav" aria-label="Site navigation">
-  <button class="arrow arrow-left" data-dir="left" aria-label="Photography">
-    <span class="arrow-glyph">&larr;</span>
-    <span class="arrow-label">photography</span>
-  </button>
-  <button class="arrow arrow-right" data-dir="right" aria-label="Portfolio">
-    <span class="arrow-glyph">&rarr;</span>
-    <span class="arrow-label">portfolio</span>
-  </button>
-  <button class="arrow arrow-down" data-dir="down" aria-label="About">
-    <span class="arrow-glyph">&darr;</span>
-    <span class="arrow-label">about</span>
-  </button>
-  <button class="arrow arrow-return" id="arrowReturn" data-state="hidden" aria-label="Home">
-    <span class="arrow-glyph"></span>
-    <span class="arrow-label">home</span>
-  </button>
-</nav>
+  <!-- ===== DIRECTIONAL NAV ===== -->
+  <nav class="dirnav" aria-label="Site navigation">
+    <button class="arrow arrow-left" data-dir="left" aria-label="Photography">
+      <span class="arrow-glyph">&larr;</span>
+      <span class="arrow-label">photography</span>
+    </button>
+    <button class="arrow arrow-right" data-dir="right" aria-label="Portfolio">
+      <span class="arrow-glyph">&rarr;</span>
+      <span class="arrow-label">portfolio</span>
+    </button>
+    <button class="arrow arrow-down" data-dir="down" aria-label="About">
+      <span class="arrow-glyph">&darr;</span>
+      <span class="arrow-label">about</span>
+    </button>
+    <button class="arrow arrow-return" id="arrowReturn" data-state="hidden" aria-label="Home">
+      <span class="arrow-glyph"></span>
+      <span class="arrow-label">home</span>
+    </button>
+  </nav>
 
-<!-- ===== WORLD (the plane that pans btw) ===== -->
-<main id="world">
+  <!-- ===== WORLD (the plane that pans btw) ===== -->
+  <main id="world">
 
-  <!-- deprecated feature for now -->
-  <!-- trace lines drawn from centre toward current direction -->
-  <!-- <svg id="trace" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <!-- deprecated feature for now -->
+    <!-- trace lines drawn from centre toward current direction -->
+    <!-- <svg id="trace" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <line id="traceLine" x1="50" y1="50" x2="50" y2="50" />
   </svg> -->
 
-  <!-- HOME — 0,0 -->
-<section class="panel panel-home" data-pos="0,0">
-  <div class="home-block">
-    <p class="eyebrow">welcome to my website !! <br>my name is</p>
-    <h1>Sevan Dalzell</h1>
-    <p class="home-body">
-      A final-year mechatronics engineering student passionate about
-      the interplay of design, technology and art.
-    </p>
-    <!-- <p class="eyebrow">
+    <!-- HOME — 0,0 -->
+    <section class="panel panel-home" data-pos="0,0">
+      <div class="home-block">
+        <p class="eyebrow">welcome to my website !! <br>my name is</p>
+        <h1>Sevan Dalzell</h1>
+        <p class="home-body">
+          I'm a final-year mechatronics engineering student passionate about
+          the interplay of design, technology and art.
+        </p>
+        <!-- <p class="eyebrow">
       Try navigate this site with the arrow keys 🡰 🡲 🡳 it's way more fun.
     </p> -->
-  </div>
-</section>
+      </div>
+    </section>
 
-  <!-- PHOTOGRAPHY — -1,0 -->
-  <section class="panel panel-photo panel-scrollable" data-pos="-1,0">
-    <div class="scroll-hero">
-      <div class="scroll-hero-inner">
-        <p class="eyebrow">001 — photography</p>
-        <h2>Shot on Fujifilm</h2>
-        <p class="scroll-hero-body">
-          Initially shooting for personal enjoyment only, I now have done work for several organisations and uni clubs.
-          Scroll to uncover.
-        </p>
-        <!-- add expansive link to show  Hardware Meetup NZ, UOA's MECHA, AUDA, AUES, 
+    <!-- PHOTOGRAPHY — -1,0 -->
+    <section class="panel panel-photo panel-scrollable" data-pos="-1,0">
+      <div class="scroll-hero">
+        <div class="scroll-hero-inner">
+          <p class="eyebrow">photography | 001</p>
+          <h2>Shot on Fujifilm</h2>
+          <p class="scroll-hero-body">
+            <!-- Initially shooting for personal enjoyment only, I now have done work for several organisations and uni clubs.
+          Scroll to uncover. -->
+            Attached is a selection of only club and organisational work. As I develop
+            this page more, I will soon add personal work and other projects.
+          </p>
+          <!-- add expansive link to show  Hardware Meetup NZ, UOA's MECHA, AUDA, AUES, 
          Rainbow Engineering, Engineering Revue, and Women in Engineering Network at some point -->
-        <p class="scroll-hint">scroll for more &darr;</p>
-      </div>
-      <button class="inpanel-home inpanel-home-right" id="photoHomeBtn" aria-label="Return home from photography">
-        <span class="arrow-glyph">&rarr;</span>
-        <span class="arrow-label">home</span>
-      </button>
-    </div>
-    <div class="mosaic" id="mosaic">
-      <!-- generated by script.js from the PHOTOS array -->
-    </div>
-  </section>
-
-  <!-- PORTFOLIO — 1,0 -->
-  <section class="panel panel-work panel-scrollable" data-pos="1,0">
-    <div class="scroll-hero">
-      <div class="scroll-hero-inner">
-        <p class="eyebrow">002 — portfolio</p>
-        <h2>Selected work</h2>
-        <p class="scroll-hero-body">
-          A handful of projects from coursework, personal life, and club contributions at uni.
-          Scroll to explore.
-        </p>
-        <p class="scroll-hint">scroll for more &darr;</p>
-      </div>
-      <button class="inpanel-home inpanel-home-left" id="workHomeBtn" aria-label="Return home from portfolio">
-        <span class="arrow-glyph">&larr;</span>
-        <span class="arrow-label">home</span>
-      </button>
-    </div>
-    <div class="landmarks" id="landmarks">
-      <!-- generated by script.js from the PROJECTS array -->
-    </div>
-  </section>
-
-  <!-- ABOUT — 0,1 -->
-  <section class="panel panel-about" data-pos="0,1">
-    <div class="about-layout">
-      <div class="about-portrait">
-        <img 
-          srcset="
-            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_400/Sevan_1_alt_qmyagr 400w,
-            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_800/Sevan_1_alt_qmyagr 800w,
-            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_1200/Sevan_1_alt_qmyagr 1200w
-          "
-          sizes="(max-width: 720px) 100vw, 400px"
-          src="https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_400,usm_0.66_1.00_0.01/Sevan_1_alt_qmyagr"
-          alt="Portrait of Sevan Dalzell" 
-          loading="lazy"
-          onerror="this.onerror=null; this.srcset=''; this.src='assets/portrait.avif';"
-        >
-      </div>
-      <div class="about-main">
-        <div class="panel-head">
-          <p class="eyebrow">003 — about</p>
-          <h2>About</h2>
+          <p class="scroll-hint">scroll to reveal &darr;</p>
         </div>
-        <div class="about-block">
-          <p>
-            I'm a final-year BE(Hons) Mechatronics Engineering student at the
-            University of Auckland, finishing up papers in robotics &amp;
-            intelligent systems, industrial automation, and control. I like
-            projects that sit at the join between mechanical, electrical, and
-            code — things that have to physically work, not just compile.
+        <button class="inpanel-home inpanel-home-right" id="photoHomeBtn" aria-label="Return home from photography">
+          <span class="arrow-glyph">&rarr;</span>
+          <span class="arrow-label">home</span>
+        </button>
+      </div>
+      <div class="mosaic" id="mosaic">
+        <!-- generated by script.js from the PHOTOS array -->
+      </div>
+    </section>
+
+    <!-- PORTFOLIO — 1,0 -->
+    <section class="panel panel-work panel-scrollable" data-pos="1,0">
+      <div class="scroll-hero">
+        <div class="scroll-hero-inner">
+          <p class="eyebrow">002 | portfolio</p>
+          <h2>Selected work</h2>
+          <p class="scroll-hero-body">
+            A handful of projects from my coursework, professional experience, personal life, and club contributions.
+            Scroll to explore.
           </p>
-          <p>
-            Outside of coursework I shoot film and digital on Fujifilm gear,
-            ride a GSX250R, and spend more time than is reasonable thinking
-            about how things are put together — products, garments, robots,
-            all the same problem really.
-          </p>
-          <p class="about-contact">
-            <a href="mailto:contact@sevandalzell.com">contact@sevandalzell.com</a>
-            <span class="dim">/</span>
-            <!-- <a href="https://github.com/" target="_blank" rel="noopener">github</a>
+          <p class="scroll-hint">dramatic reveal &darr;</p>
+        </div>
+        <button class="inpanel-home inpanel-home-left" id="workHomeBtn" aria-label="Return home from portfolio">
+          <span class="arrow-glyph">&larr;</span>
+          <span class="arrow-label">home</span>
+        </button>
+      </div>
+      <div class="landmarks" id="landmarks">
+        <!-- generated by script.js from the PROJECTS array -->
+      </div>
+    </section>
+
+    <!-- ABOUT — 0,1 -->
+    <section class="panel panel-about" data-pos="0,1">
+      <div class="about-layout">
+        <div class="about-portrait">
+          <img srcset="
+            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_400,usm_0.66_1.00_0.01/Sevan_1_alt_qmyagr 400w,
+            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_800,usm_0.66_1.00_0.01/Sevan_1_alt_qmyagr 800w,
+            https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_1200,usm_0.66_1.00_0.01/Sevan_1_alt_qmyagr 1200w
+          " sizes="(max-width: 720px) 100vw, 400px"
+            src="https://res.cloudinary.com/vcdy572c/image/upload/f_auto,q_auto,w_400,usm_0.66_1.00_0.01/Sevan_1_alt_qmyagr"
+            alt="Portrait of Sevan Dalzell" loading="lazy"
+            onerror="this.onerror=null; this.srcset=''; this.src='assets/portrait.avif';">
+        </div>
+        <div class="about-main">
+          <div class="panel-head">
+            <p class="eyebrow">003 | about</p>
+            <h2>About me</h2>
+          </div>
+          <div class="about-block">
+            <p>
+              My name is Sevan Dalzell and I'm a final-year BE(Hons) Mechatronics Engineering student at the
+              University of Auckland, finishing up papers in robotics &amp;
+              intelligent systems, industrial automation, and control. I'm passionate for projects where engineering
+              disciplines integrate together. This mindset is the backbone of my creative hobbies, like photography,
+              an intersection of mechanical, electrical, and software engineering with art and design.
+            </p>
+            <p>
+              This year I have the privilege of being
+              Video Co-Director for <a href="https://engrevue.co.nz/">The Engineering Revue</a>, as well as a marketing
+              executive for <a href="https://rainbowengineering.wdcc.co.nz/">Rainbow Engineering</a>. One of my biggest
+              takeaways from studying engineering so far is that community is absolutely fundamental to good
+              engineering, the best ideas emerge
+              when people with different perspectives support, challenge, and learn from one another.
+            </p>
+            <p class="about-contact">
+              <a href="mailto:contact@sevandalzell.com">contact@sevandalzell.com</a>
+              <span class="dim">/</span>
+              <!-- <a href="https://github.com/" target="_blank" rel="noopener">github</a>
             <span class="dim">/</span> -->
-            <a href="https://www.linkedin.com/in/sevandalzell/" target="_blank" rel="noopener">linkedin</a>
-          </p>
+              <a href="https://www.linkedin.com/in/sevandalzell/" target="_blank" rel="noopener">linkedin</a>
+            </p>
+          </div>
+          <a class="about-cv" href="assets/Sevan-Dalzell-CV.pdf" target="_blank" rel="noopener noreferrer"
+            aria-label="View CV">
+            <i class="fa-solid fa-arrow-up-right-from-square fa-2xs about-cv-icon"></i>
+            <!-- or fa-2xs for even smaller -->
+            <span class="about-cv-label">view cv</span>
+          </a>
         </div>
-        <a class="about-cv" href="assets/Sevan-Dalzell-CV.pdf" target="_blank" rel="noopener noreferrer" aria-label="View CV">
-          <i class="fa-solid fa-arrow-up-right-from-square fa-2xs about-cv-icon"></i>
-          <!-- or fa-2xs for even smaller -->
-          <span class="about-cv-label">view cv</span>
-        </a>
       </div>
-    </div>
-  </section>
+    </section>
 
-</main>
+  </main>
 
-<!-- ===== LIGHTBOX ===== -->
-<div id="lightbox" aria-hidden="true">
-  <button id="lightboxClose" aria-label="Close">&times;</button>
-  <div id="lightboxContent"></div>
-</div>
+  <!-- ===== LIGHTBOX ===== -->
+  <div id="lightbox" aria-hidden="true">
+    <button id="lightboxClose" aria-label="Close">&times;</button>
+    <div id="lightboxContent"></div>
+  </div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>

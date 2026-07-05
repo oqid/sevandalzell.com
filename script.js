@@ -21,20 +21,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set feature:true on any project to make it a full-width image break.
   const PROJECTS = [
     {
-      title: 'Autonomous fire-fighting robot',
-      desc: 'Mecanum-wheeled platform built for MECHENG 706 — phototransistor flame sensing, IMU-stabilised heading, and an Arduino Mega driving the full control stack. I led system integration: pinouts, FSM design, and power architecture.',
-      tags: 'Arduino · Mecanum drive · FSM · IMU',
+      title: 'MECHENG 706: Autonomous robot group project',
+      desc: `A four-mecanum-wheeled sensing and actuation platform built for MECHENG 706, for the task of obstacle avoidance while pursuing a point light source to 'extinguish'. In Project 2 our group of four implemented heirarchical behavioural control, powered by sensor fusion across 10 infrared, phototransistor, ultrasonic sensors and IMU sensors. I led motion PID control, as well as system integration & high-level planning with Eesha Mahimkar. <br><br>The most interesting problem-solving moment in this project was in the absence of a tachometer to calibrate each motor's RPM, I used the spectrogram in the free audio software <i>Audacity</i> as a time-ruler to estimate each wheel speed at the same voltage.<br><br>`,
+      tags: 'Circuit Design · Firmware · Control Systems · Project Management',
       media: [
         {
-          src: 'assets/projects/firefighter.jpg',
-          type: 'image',
-          desc: 'Bench test run: flame sensor array and drivetrain tuning on the first integrated prototype.'
+          src: 'https://res.cloudinary.com/vcdy572c/video/upload/v1782980344/706_movie_crop2_jzgbyt.mp4',
+          type: 'video',
+          desc: 'Early run: the control logic tries to minimize the difference in angle between the mast (the turning head) and the robot body heading, this enabled simple pathfinding and continous tracking of the target.'
         },
         {
-          src: 'assets/projects/ift.jpg',
+          src: 'assets/projects/706_audacity.jpg',
           type: 'image',
-          desc: 'Slideshow verification frame: controller sweep comparison during tuning pass.'
-        }
+          desc: 'With the wheel spokes tapping my student ID card each rotation, it created distinct peaks I could measure the delay between to infer wheel speed.'
+        },
+        {
+          src: 'assets/projects/706_blowtorch.jpg',
+          type: 'image',
+          desc: ''
+        },
+        {
+          src: 'assets/projects/706-grouphoto.jpg',
+          type: 'image',
+          desc: 'We look a little shell-shocked as this was right after the live demo.'
+        },
       ],
       type: 'image'
     },
@@ -92,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
       attachTo: 'GMP renewal automation',
       entryType: 'right',
       images: [
-        { src: 'assets/projects/elitepac.jpg', desc: 'Document automation workflow snapshot.' },
+        { src: 'assets/projects/elitepac.jpg', desc: '' },
         { src: 'assets/projects/firefighter.jpg' }
       ]
     },
@@ -155,17 +165,17 @@ document.addEventListener('DOMContentLoaded', () => {
   let pos = { x: 0, y: 0 };
 
   const outboundArrows = {
-    left:  { el: document.querySelector('.arrow-left'),  target: { x: -1, y: 0 } },
-    right: { el: document.querySelector('.arrow-right'), target: { x: 1,  y: 0 } },
-    down:  { el: document.querySelector('.arrow-down'),  target: { x: 0,  y: 1 } }
+    left: { el: document.querySelector('.arrow-left'), target: { x: -1, y: 0 } },
+    right: { el: document.querySelector('.arrow-right'), target: { x: 1, y: 0 } },
+    down: { el: document.querySelector('.arrow-down'), target: { x: 0, y: 1 } }
   };
 
   // Navigation graph keyed by panel coordinates. Add new panels/routes here.
   const NAV_GRAPH = {
-    '0,0':  { left: { x: -1, y: 0 }, right: { x: 1, y: 0 }, down: { x: 0, y: 1 } },
+    '0,0': { left: { x: -1, y: 0 }, right: { x: 1, y: 0 }, down: { x: 0, y: 1 } },
     '-1,0': { right: { x: 0, y: 0 } },
-    '1,0':  { left: { x: 0, y: 0 } },
-    '0,1':  { up: { x: 0, y: 0 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } }
+    '1,0': { left: { x: 0, y: 0 } },
+    '0,1': { up: { x: 0, y: 0 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } }
   };
 
   let holdHomeNavUntilCentered = false;
@@ -497,17 +507,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const mediaEl = media.type === 'video'
       ? Object.assign(document.createElement('video'), {
-          src: media.src,
-          autoplay: true,
-          loop: true,
-          muted: true,
-          playsInline: true
-        })
+        src: media.src,
+        autoplay: true,
+        loop: true,
+        muted: true,
+        playsInline: true
+      })
       : Object.assign(document.createElement('img'), {
-          src: media.src,
-          alt: fallbackAlt,
-          loading: 'lazy'
-        });
+        src: media.src,
+        alt: fallbackAlt,
+        loading: 'lazy'
+      });
 
     mediaEl.classList.add('landmark-media-item', 'is-active');
     mediaEl.dataset.src = media.src;
@@ -585,35 +595,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setActiveProjectMedia(mediaWrap, index) {
-  const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
-  if (!mediaEls.length) return;
+    const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
+    if (!mediaEls.length) return;
 
-  const nextIndex = ((index % mediaEls.length) + mediaEls.length) % mediaEls.length;
-  
-  // Remove active from ALL items
-  mediaEls.forEach((el, i) => {
-    el.classList.remove('is-active');
-    if (el.tagName === 'VIDEO') {
-      el.pause();
+    const nextIndex = ((index % mediaEls.length) + mediaEls.length) % mediaEls.length;
+
+    // Remove active from ALL items
+    mediaEls.forEach((el, i) => {
+      el.classList.remove('is-active');
+      if (el.tagName === 'VIDEO') {
+        el.pause();
+        el.currentTime = 0;
+      }
+    });
+
+    // Add active to the new item
+    const newActive = mediaEls[nextIndex];
+    newActive.classList.add('is-active');
+
+    if (newActive.tagName === 'VIDEO') {
+      newActive.currentTime = 0;
+      newActive.loop = newActive.dataset.slideshowMember !== 'true';
+      const playPromise = newActive.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => { });
+      }
     }
-  });
-  
-  // Add active to the new item
-  const newActive = mediaEls[nextIndex];
-  newActive.classList.add('is-active');
-  
-  if (newActive.tagName === 'VIDEO') {
-    const playPromise = newActive.play();
-    if (playPromise && typeof playPromise.catch === 'function') {
-      playPromise.catch(() => {});
-    }
+
+    mediaWrap.dataset.activeIndex = String(nextIndex);
+    const counter = mediaWrap.querySelector('.landmark-media-counter');
+    if (counter) counter.textContent = `${nextIndex + 1}/${mediaEls.length}`;
+    updateProjectMediaDescription(mediaWrap, mediaEls[nextIndex]);
   }
-
-  mediaWrap.dataset.activeIndex = String(nextIndex);
-  const counter = mediaWrap.querySelector('.landmark-media-counter');
-  if (counter) counter.textContent = `${nextIndex + 1}/${mediaEls.length}`;
-  updateProjectMediaDescription(mediaWrap, mediaEls[nextIndex]);
-}
 
   function getActiveProjectMedia(mediaWrap) {
     const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
@@ -623,57 +636,113 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startProjectSlideshow(mediaWrap, intervalMs = PROJECT_SLIDESHOW_MS) {
-  const mediaEls = mediaWrap.querySelectorAll('.landmark-media-item');
-  if (mediaEls.length <= 1) return null;
+    const mediaEls = Array.from(mediaWrap.querySelectorAll('.landmark-media-item'));
+    if (mediaEls.length <= 1) return null;
 
-  let timer = null;
-  let isPaused = false;
-  let hasAdvancedOnce = false;
+    let timer = null;
+    let isPaused = false;
+    let hasAdvancedOnce = false;
+    let firstImageDelayConsumed = false;
+    let activeVideo = null;
+    let onActiveVideoEnded = null;
+    let onActiveVideoError = null;
 
-  const next = () => {
-    if (isPaused) return;
-    const currentIndex = Number.parseInt(mediaWrap.dataset.activeIndex || '0', 10);
-    const nextIndex = (currentIndex + 1) % mediaEls.length;
-    setActiveProjectMedia(mediaWrap, nextIndex);
-  };
+    const clearActiveVideoWatchers = () => {
+      if (activeVideo && onActiveVideoEnded) {
+        activeVideo.removeEventListener('ended', onActiveVideoEnded);
+      }
+      if (activeVideo && onActiveVideoError) {
+        activeVideo.removeEventListener('error', onActiveVideoError);
+      }
+      activeVideo = null;
+      onActiveVideoEnded = null;
+      onActiveVideoError = null;
+    };
 
-  const stop = () => {
-    if (timer) {
-      clearTimeout(timer);
-      clearInterval(timer);
-      timer = null;
-    }
-  };
+    const clearSchedule = () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      clearActiveVideoWatchers();
+    };
 
-  const start = () => {
-    stop();
-    // First run gets a longer buffer so arriving at the panel doesn't
-    // immediately show a crossfade; subsequent restarts (e.g. after a
-    // hover pause) resume at the normal interval.
-    const firstDelay = hasAdvancedOnce ? 100 : PROJECT_SLIDESHOW_FIRST_DELAY_MS;
-    timer = setTimeout(() => {
+    const next = () => {
+      if (isPaused) return;
+      const currentIndex = Number.parseInt(mediaWrap.dataset.activeIndex || '0', 10);
+      const nextIndex = (currentIndex + 1) % mediaEls.length;
+      setActiveProjectMedia(mediaWrap, nextIndex);
       hasAdvancedOnce = true;
-      next();
-      timer = setInterval(next, intervalMs);
-    }, firstDelay);
-  };
+      scheduleFromActive();
+    };
 
-  // Pause on hover
-  mediaWrap.addEventListener('mouseenter', () => {
-    isPaused = true;
-    stop();
-  });
-  
-  mediaWrap.addEventListener('mouseleave', () => {
-    isPaused = false;
+    const scheduleAfter = (delayMs) => {
+      clearSchedule();
+      timer = window.setTimeout(() => {
+        timer = null;
+        next();
+      }, delayMs);
+    };
+
+    const scheduleFromActive = () => {
+      clearSchedule();
+      if (isPaused) return;
+
+      const active = getActiveProjectMedia(mediaWrap);
+      if (!active) return;
+
+      if (active.tagName === 'VIDEO') {
+        activeVideo = active;
+        onActiveVideoEnded = () => {
+          if (isPaused) return;
+          next();
+        };
+        onActiveVideoError = () => {
+          if (isPaused) return;
+          // If video playback fails, keep slideshow moving.
+          scheduleAfter(intervalMs);
+        };
+
+        active.addEventListener('ended', onActiveVideoEnded);
+        active.addEventListener('error', onActiveVideoError);
+
+        if (active.ended) next();
+        return;
+      }
+
+      if (!hasAdvancedOnce && !firstImageDelayConsumed) {
+        firstImageDelayConsumed = true;
+        scheduleAfter(PROJECT_SLIDESHOW_FIRST_DELAY_MS);
+        return;
+      }
+
+      scheduleAfter(intervalMs);
+    };
+
+    const stop = () => {
+      clearSchedule();
+    };
+
+    const start = () => {
+      isPaused = false;
+      scheduleFromActive();
+    };
+
+    // Pause on hover
+    mediaWrap.addEventListener('mouseenter', () => {
+      isPaused = true;
+      clearSchedule();
+    });
+
+    mediaWrap.addEventListener('mouseleave', () => {
+      start();
+    });
+
+    // Start the slideshow
     start();
-  });
 
-  // Start the slideshow
-  start();
-  
-  return { start, stop, restart: start };
-}
+    return { start, stop, restart: start };
+  }
 
 
   PROJECTS.forEach((p, i) => {
@@ -691,17 +760,16 @@ document.addEventListener('DOMContentLoaded', () => {
     mediaItems.forEach((media, mediaIndex) => {
       const mediaEl = media.type === 'video'
         ? Object.assign(document.createElement('video'), {
-            src: media.src,
-            autoplay: true,
-            loop: true,
-            muted: true,
-            playsInline: true
-          })
+          src: media.src,
+          muted: true,
+          playsInline: true,
+          preload: 'metadata'
+        })
         : Object.assign(document.createElement('img'), {
-            src: media.src,
-            alt: p.title,
-            loading: 'lazy'
-          });
+          src: media.src,
+          alt: p.title,
+          loading: 'lazy'
+        });
 
       mediaEl.classList.add('landmark-media-item');
       if (mediaIndex === 0) {
@@ -711,6 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mediaEl.dataset.src = media.src;
       mediaEl.dataset.type = media.type;
       mediaEl.dataset.description = media.description || '';
+      mediaEl.dataset.slideshowMember = mediaItems.length > 1 ? 'true' : 'false';
       mediaTrack.appendChild(mediaEl);
       attachMissingFallback(mediaWrap, mediaEl, media.src);
     });
