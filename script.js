@@ -21,6 +21,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set feature:true on any project to make it a full-width image break.
   const PROJECTS = [
     {
+      title: 'The Engineering Revue',
+      desc: `<i>Starting as a Video Team member in 2024, a Video &amp Writing Team member in 2025, and then then a Video Co-Director in 2026.</i> 
+      <a href="https://engrevue.co.nz/">The Engineering Revue</a> at UoA is fully student-run theatre production involving 100+ students across 17 creative and technical teams, fully self-funded and hosted at Sky City. 
+      It is a full-year commitment, where I am leading a dedicated team of 5 talented people to write, film, and produce a music video, choreographer trailers, plot trailers, and internet publishing for the show. Vital for the success of each
+      project is ongoing cross-team collaboration, organisation and communication with 10+ other teams, with regular meetings all throughout the year and uni semesters. Revue's incredible people and opportunities have been integral to my
+      of personal growth and sense of community during my degree.<br><br>`,
+      tags: 'Leadership · Teamwork · Project Management · Community Engagement',
+      media: 'assets/projects/revue_groupphoto.avif',
+      type: 'image',
+      feature: true
+    },
+    {
+      title: 'Rainbow Engineering',
+      desc: `Rainbow Engineering is a student-led society, dedicated to supporting LGBTQ+ students
+      in the FoED, and to fostering a more well-networked, inclusive, and diverse engineering community both at UoA and in
+      the wider engineering industry. I have been involved since 2024, and as a marketing exec &amp dedicated photographer
+      since 2025.<br><br> Rainbow Engineering has also been a keystone of what makes me feel like I belong with group of
+      likeminded and wonderful people in the field of engineering. I want to see more people develop the same experience 
+      I did at REng, and I hope to stay involved into 2027 &amp beyond from an industry 
+      point of view.<br><br>`,
+      tags: 'Advocacy · Inclusion · Teamwork',
+      media: 'assets/projects/elitepac.jpg',
+      type: 'image'
+    },
+    {
       title: 'MECHENG 706: Autonomous robot group project',
       desc: `A four-mecanum-wheeled sensing and actuation platform built for MECHENG 706, for the task of obstacle avoidance while pursuing a point light source to 'extinguish'. In Project 2 our group of four implemented heirarchical behavioural control, powered by sensor fusion across 10 infrared, phototransistor, ultrasonic sensors and IMU sensors. I led motion PID control, as well as system integration & high-level planning with Eesha Mahimkar. <br><br>The most interesting problem-solving moment in this project was in the absence of a tachometer to calibrate each motor's RPM, I used the spectrogram in the free audio software <i>Audacity</i> as a time-ruler to estimate each wheel speed at the same voltage.<br><br>`,
       tags: 'Circuit Design · Firmware · Control Systems · Project Management',
@@ -49,27 +74,67 @@ document.addEventListener('DOMContentLoaded', () => {
       type: 'image'
     },
     {
-      title: 'Total artificial heart — capstone',
-      desc: 'CFD modelling and a physical mock circulatory loop, built to validate flow behaviour for a total artificial heart concept as part of the engineering capstone.',
-      tags: 'CFD · Mock circulatory loop · Capstone',
-      media: 'assets/projects/heart.jpg',
-      type: 'image',
-      feature: true
-    },
-    {
-      title: 'Digital control systems — IFT',
-      desc: 'Implemented Iterative Feedback Tuning with Gauss-Newton optimisation in MATLAB for MECHENG 705, tuning a closed-loop controller directly from measured data rather than a model.',
-      tags: 'MATLAB · IFT · Gauss-Newton',
-      media: 'assets/projects/ift.jpg',
+      title: 'Part IV project: Total artificial heart',
+      desc: `Ongoing final-year independent research and design capstone project, solving a real-world problem 
+      in biomedical engineering. Me and my project partner, Mikaela Campo, have been exploring how the effects 
+      of downsizing a total artificial heart can be mitigated for better hemodynamics and equitable patient outcomes for
+      women, and in paedatric applications. This project has involved extensive literature review, computational fluid dynamics (CFD) simulations, and
+      early mechanical design with the goal to make a working mechanical prototype for in-vitro testing. <br><br>`,
+      tags: 'Biomedical Engineering · Medical Device Design · Research',
+      media: 'assets/projects/tah_contents.avif',
       type: 'image'
     },
     {
-      title: 'GMP renewal automation',
-      desc: 'VBA scripting built during industry experience at Elitepac NZ to automate GMP renewal documentation — replacing a manual paperwork process with a repeatable script.',
+      title: 'Raspberry Pi Wi-Fi access point',
+      desc: `While living in student accomodation, I tried setting up a Raspberry Pi 3 with a Wi-Fi 
+      dongle to connect my devices that were incompatible with the <i>eduroam</i> 
+      university Wi-Fi. Ultimately, I was able to broadcast a network, but the Pi was unable to 
+      dynamically assign IP addresses to my devices due to the nature of <i>eduroam</i>, and the limited
+      time-scope of the project.
+      <br><br>`,
+      tags: 'Raspberry Pi · Networking · Linux',
+      media: 'assets/projects/pi.jpg',
+      type: 'image'
+    },
+    {
+      title: '2025 MECHA Design Challenge',
+      desc: `A one-day engineering design and presentation sprint with a small team. We had to
+      design and build a small aquatic robot that could navigate three obstacles courses in the
+      Hiwa swimming pool. With the only presented materials being three DC motors and a wired
+      controller. Rapid prototyping and iterative design for 3D printing fixtures, validating bouyancy,
+      and testing navigation control with strong teamwork were all key to our 2nd place success. <br><br>`,
+      tags: 'Teambuilding · Iterative Design · Rapid Prototyping · 3D Printing',
+      media: [
+        {
+          src: 'assets/projects/mecha_1.jpg',
+          type: 'image',
+          desc: 'Our group presentation opening slide.'
+        },
+        {
+          src: 'assets/projects/mecha_2.jpg',
+          type: 'image',
+          desc: ''
+        },
+        {
+          src: 'assets/projects/mecha_3.jpg',
+          type: 'image',
+          desc: ''
+        },
+        {
+          src: 'assets/projects/mecha_pool.jpg',
+          type: 'image',
+          desc: ''
+        },
+      ],
+      type: 'image'
+    },
+    {
+      title: 'High school design works',
+      desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       tags: 'VBA · Process automation · Elitepac NZ',
       media: 'assets/projects/elitepac.jpg',
       type: 'image'
-    }
+    },
   ];
 
   // Photography mosaic — just list filenames + a caption. Layout/size is
@@ -98,21 +163,21 @@ document.addEventListener('DOMContentLoaded', () => {
   //   end up misaligned).
   // images: up to 2 for left/right entries, up to 3 for feature entries
   const PORTFOLIO_IMAGE_EXPANSIONS = [
+    // {
+    //   attachTo: 'GMP renewal automation',
+    //   entryType: 'right',
+    //   images: [
+    //     { src: 'assets/projects/elitepac.jpg', desc: '' },
+    //     { src: 'assets/projects/firefighter.jpg' }
+    //   ]
+    // },
     {
-      attachTo: 'GMP renewal automation',
-      entryType: 'right',
-      images: [
-        { src: 'assets/projects/elitepac.jpg', desc: '' },
-        { src: 'assets/projects/firefighter.jpg' }
-      ]
-    },
-    {
-      attachTo: 'Total artificial heart — capstone',
+      attachTo: 'The Engineering Revue',
       entryType: 'feature',
       images: [
-        { src: 'assets/projects/heart.jpg', desc: 'Flow loop bench setup.' },
-        { src: 'assets/projects/ift.jpg' },
-        { src: 'assets/projects/elitepac.jpg' }
+        { src: 'assets/projects/revue_bts.jpg' },
+        { src: 'assets/projects/revue_stagestill.avif' },
+        { src: 'assets/projects/revue_bcam.jpg' }
       ]
     }
   ];
