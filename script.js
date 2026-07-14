@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       I did at REng, and I hope to stay involved into 2027 &amp beyond from an industry 
       point of view.<br><br>`,
       tags: 'Advocacy · Inclusion · Teamwork',
-      media: 'assets/projects/reng.jpg',
+      media: 'assets/projects/reng.avif',
       type: 'image'
     },
     {
